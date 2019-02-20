@@ -1,0 +1,69 @@
+body {
+    background-color : lightblue;
+    color : darkslategray;
+    padding: 0px;
+    margin: 0px;
+}
+
+#column-body {
+    width : 700px;
+    position : absolute;
+    background-color : whitesmoke;
+    margin-left: 100px;
+    padding-left: 15px;
+    padding-right:15px;
+    padding-bottom:100px;
+    margin-bottom:0px;
+}
+
+ul li {
+    display : inline-block;
+    border : 2px solid darkblue;
+    width : 24%;
+    height : 30px;
+    text-align : center;
+    margin : 0px;
+}
+
+ul {
+    display : inline-block;
+    background-color : dodgerblue;
+    padding : 0;
+    width : 100%;
+}
+
+h1 {
+    text-align : center;
+}
+
+label {
+    display : block;
+}
+
+input {
+    display : block;
+}
+
+header {
+
+}
+
+section {
+
+}
+
+#quote_box {
+    width : 300px;
+    border : 5px solid gray;
+    margin : auto;
+    position : relative;
+    font : 12px Arial;
+    font-style: italic;
+    padding : 10px;
+}
+
+#suggest_quote {
+    position : absolute;
+    right : 0;
+    bottom : 0;
+}

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Results</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="results.css">
+    <script src="main.js"></script>
+</head>
+<body>
+    <div id="column-body">
+        <header>
+            <ul>
+                <li><a href="index.html">Welcome Page</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="assess.html">SART Assessment</a></li>
+                <li><a href="scheduler.html">New Schedule</a></li>
+                <!-- <li><a href="results.html">Results</a></li> -->
+            </ul>
+        </header>
+        <h1>Results</h1>
+        <form id="plot_type">
+            <fieldset>
+            <legend>Plot Type</legend>
+            <input type="radio" id="scatter" name="plot_type" value="time_scatter" checked> Scatterplot over time
+            <input type="radio" id="box" name="plot_type" value="trial_box"> Box plot intervention (Not Yet Implemented)
+            </fieldset>
+        </form>
+        <form id="scatterplot_variables">
+            <fieldset>
+            <legend>Scatterplot Y Values</legend>
+            <input type="checkbox" id="breakfast" name="breakfast">Breakfast
+            <input type="checkbox" id="SART" name="SART_results" checked>SART
+            <input type="checkbox" name="compliance">Compliance (Not Yet Implemented)
+            <input id="scatter_button" type="submit">
+            </fieldset>
+        </form>
+        <form id="intervention_variables">
+            <fieldset>
+            <legend>Box Plot Values (Not Yet Implemented)</legend>
+            <input type="radio" name="intervention" value="breakfast" checked>X : Breakfast
+            <input type="radio" name="metric" value="SART_results" checked>Y : SART
+            <input type="radio" name="metric" value="compliance">Y : Compliance
+            </fieldset>
+        </form>
+
+        <style>
+        #ResultPlot {
+            width: 500px;
+            height: 500px;
+            padding: 50px;
+            margin: 0;
+            border: 5px solid gray;
+            background-color: white;
+            display: block;
+            margin: auto;
+            margin-top : 5px;
+        }
+        </style>
+
+        <div id="ResultPlot"></div>
+        <script src="https://d3js.org/d3.v5.min.js"></script>
+        <script>
+
+            let assess = DEMO_ASSESSMENT;
+
+            let plot_data = new Array();
+            for (let i=0;i<assess.assessment_results.length;i++) {
+                plot_data.push({assessment : assess.assessment_results[i],
+                    intervention : assess.intervention_results[i],
+                    date : assess.schedule[i]});
+            }
+
+            let yScale = d3.scaleLinear()
+                //.domain(["Alabama","Alaska","Arizona","Arkansas","California"])
+                .domain([0, d3.max(plot_data, function(d) { return d.assessment; })])
+                //.range([padding, w-padding * 2]);
+                .range([450,50]);
+                
+            let xScale = d3.scaleTime()
+                .domain([d3.min(plot_data, function(d) { return d.date; }), d3.max(plot_data, function(d) { return d.date; })])
+                //.range([padding, w-padding * 2]);
+                .range([50,450]);
+            
+            let xAxis = d3.axisBottom().scale(xScale).ticks(5);
+            
+            let yAxis = d3.axisLeft().scale(yScale).ticks(5);
+
+            let rplot = d3.select("#ResultPlot").append("svg")
+                .attr("width", 500)
+                .attr("height", 500);
+
+            rplot.selectAll("circle") 
+                .data(plot_data)
+                .enter() 
+                .append("circle")
+                .attr('cy', (d)=>{return yScale(d.assessment);})
+                .attr('cx', (d)=>{return xScale(d.date);})
+                .attr('r', 4)
+                .attr('fill', 'black');
+
+
+            rplot.append("g")
+                .attr("class", "x axis")	
+                .attr("transform", "translate(0," + 450 + ")")
+                .call(xAxis);
+            
+            //y axis
+            rplot.append("g")
+                .attr("class", "y axis")	
+                .attr("transform", "translate(" + 50 + ", 0)")
+                .call(yAxis);
+
+            let scatter_button = document.getElementById("scatterplot_variables");
+
+            scatter_button.addEventListener("submit", (e) => {
+                let bk = document.getElementById("breakfast").checked;
+                let sa = document.getElementById("SART").checked;
+
+                if (bk) {
+                    if (sa) {
+                        rplot.selectAll("circle")
+                            .transition()
+                            .duration(500)
+                            .attr('cy', (d)=>{return yScale(d.assessment);})
+                            .attr('fill', (d)=>{
+                                if (d.intervention) {
+                                    return 'green';
+                                } else {
+                                    return 'red';
+                                }
+                            });
+                    } else {
+                        rplot.selectAll("circle")
+                            .transition()
+                            .duration(500)
+                            .attr('cy', (d)=>{return yScale(0.5);})
+                            .attr('fill', (d)=>{
+                                if (d.intervention) {
+                                    return 'green';
+                                } else {
+                                    return 'red';
+                                }
+                            });
+                    }
+                } else {
+                    if (sa) {
+                        rplot.selectAll("circle")
+                            .transition()
+                            .duration(500)
+                            .attr('cy', (d)=>{return yScale(d.assessment);})
+                            .attr('fill', 'black');
+                    } else {
+                        rplot.selectAll("circle")
+                            .transition()
+                            .duration(500)
+                            .attr('cy', (d)=>{return yScale(0.5);})
+                            .attr('fill', 'black');
+                    }
+                };
+                
+                e.preventDefault();
+            });
+
+        </script>
+
+    </div>  
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Scheduler</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+    <script src="main.js"></script>
+    <script src="scheduler.js"></script>
+</head>
+<body>
+    <div id="column-body">
+        <header>
+            <ul>
+                <li><a href="index.html">Welcome Page</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="assess.html">SART Assessment</a></li>
+                <!-- <li><a href="scheduler.html">New Schedule</a></li> -->
+                <li><a href="results.html">Results</a></li>
+            </ul>
+        </header>
+        <h1>Schedule a New Assessment</h1>
+
+        <form id="scheduler">
+            <label for="type_of_intervention">Type of Intervention</label>
+            <select name="type_of_intervention" id="interv">
+                <option value="breakfast">Breakfast!</option>
+            </select>
+            <label for="type_of_assessment">Type of Assessment</label>
+            <select name="type_of_assessment" id="assessm">
+                <option value="SART">Sustained Attention to Response Task</option>
+            </select>
+            <label for="length_in_days">Length of Trial (days)</label>
+            <input type="number" name="length_in_days" id="lendays">
+            <label for="intervention_start">Intervention Start Hour</label>
+            <input type="number" name="intervention_start" id="Istart">
+            <label for="intervention_end">Intervention End Hour</label>
+            <input type="number" name="intervention_end" id="Iend">
+            <label for="assessment_start">Assessment Start Hour</label>
+            <input type="number" name="assessment_start" id="Astart">
+            <label for="assessment_end">Assessment End Hour</label>
+            <input type="number" name="assessment_end" id="Aend">
+            <br>
+            <input id="sch_submit" type="submit">
+        </form>
+
+    </div>  
+    
+</body>
+</html>
